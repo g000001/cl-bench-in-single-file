@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"math/big"
 	"runtime"
 	"strings"
@@ -250,8 +251,54 @@ func run(name string, times int, fctn func()) {
 	fmt.Printf("(%#v %v %v %d %d)\n", name, rt, ut, sys, consed)
 }
 
+func integer_length(n int) int {
+	if n < 0 {
+		n = -n
+	} else {
+		n += 1
+	}
+	ans := math.Log2(float64(n))
+	return int(math.Ceil(ans))
+}
+
+func crc_division_step(bit int, rmdr int, poly int, msb_mask int) int {
+	// Shift in the bit into the LSB of the register (rmdr)
+	new_rmdr := bit | (rmdr * 2)
+	// Divide by the polynomial, and return the new remainder
+	if 0 == (msb_mask & new_rmdr) {
+		return new_rmdr
+	} else {
+		return new_rmdr ^ poly
+	}
+}
+
+func compute_adjustment(poly int, n int) int {
+	// Precompute X^(n-1) mod poly
+	poly_len_mask := int(1) << (integer_length(poly) - 1)
+	rmdr := crc_division_step(1, 0, poly, poly_len_mask)
+	for k := 0; k < n-1; k++ {
+		rmdr = crc_division_step(0, rmdr, poly, poly_len_mask)
+	}
+	return rmdr
+}
+
+func calculate_crc40(iterations int) int {
+	crc_poly := 1099587256329
+	len := 3014633
+	answer := 0
+	for k := 0; k < iterations; k++ {
+		answer = compute_adjustment(crc_poly, len)
+	}
+	return answer
+}
+
+func run_crc40() {
+	calculate_crc40(10)
+}
+
 func main() {
 	fmt.Printf("(\"Go %s\"\n", runtime.Version()[2:])
+	run("CRC40", 2, run_crc40)
 	run("1D-ARRAYS", 1, run_bench_1d_arrays)
 	run("2D-ARRAYS", 1, run_bench_2d_arrays)
 	run("FIB", 50, run_fib)
