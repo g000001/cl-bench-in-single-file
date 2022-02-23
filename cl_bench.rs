@@ -110,22 +110,6 @@ fn bench_1d_arrays(size: usize, runs: i32) -> () {
     }
 }
 
-// fn bench_1d_arrays_100000(runs: i32) -> () {
-//     const LEN: usize = 100000;
-//     let ones: [u16; LEN] = [1; LEN];
-//     let twos: [u16; LEN] = [2; LEN];
-//     let mut threes: [u16; LEN] = [0; LEN];
-
-//     for run in 0 .. runs {
-//         for pos in 0 .. LEN {
-//             threes[pos] = ones[pos] + twos[pos];
-//         }
-//         for &elt in threes.iter() {
-//            assert!(elt == 3, "The assertion {} == 3 failed.", elt);
-//         }
-//     }
-// }
-
 fn run_bench_1d_arrays() {
     bench_1d_arrays(100000, 10);
     //bench_1d_arrays_100000(10);
@@ -159,46 +143,9 @@ fn bench_2d_arrays(size: usize, runs: u32) {
     }
 }
 
-// fn bench_2d_arrays_2000(runs: u32) {
-//     const SIZE: usize = 200;
-//     //let y: Box<[u64; 10_000_000]> = box [1u64; 10_000_000];;
-//     let ones: [[u16; SIZE]; SIZE] = [[1; SIZE]; SIZE];
-//     let twos: [[u16; SIZE]; SIZE] = [[2; SIZE]; SIZE];
-//     let mut threes: [[u16; SIZE]; SIZE] = [[0; SIZE]; SIZE];
-//     for run in 0 .. runs {
-//         for i in 0 .. SIZE {
-//           for j in 0 .. SIZE {
-//               threes[i][j] = ones[i][j] + twos[i][j];
-//           }
-//         }
-//         let elt: u16 = threes[3][3];
-//         assert!(elt == 3, "The assertion {} == 3 failed.", elt);
-//     }
-// }
-
 fn run_bench_2d_arrays() {
     bench_2d_arrays(2000, 10);
-    //bench_2d_arrays_2000(10);
 }
-
-// fn listn(n: usize) -> Vec<usize> {
-//     let ans: Vec<usize> = (0..n).collect();
-//     ans
-// }
-
-// fn shorterp(x: &[u16], y: &[u16]) -> bool {
-//     y.len() > 0 && (x.len() == 0 || shorterp(&x[1 ..], &y[1 ..]))
-// }
-
-// fn mas<'a>(x: &'a[u16], y: &'a[u16], z: &'a[u16]) -> &'a[u16] {
-//     if !shorterp(&y, &x) {
-//         z
-//     } else {
-//         mas(mas(&x[1..], y, z),
-//             mas(&y[1..], z, x),
-//             mas(&z[1..], x, y))
-//     }
-// }
 
 fn listn(n: usize) -> Vec<usize> {
     vec![0; n]
@@ -221,7 +168,6 @@ fn mas(x: Vec<usize>, y: Vec<usize>, z: Vec<usize>) -> Vec<usize> {
 }
 
 fn run_takl() {
-    //mas(&[0; 18], &[0; 12], &[0; 6]);
     mas(listn(18), listn(12), listn(6));
 }
 
@@ -266,7 +212,6 @@ fn run_crc40() {
 }
 
 fn main() {
-    //run("TAKL".to_string(), 150, run_takl);
     println!("\n(\"Rust {}\"", "1.28.0");
     run("CRC40".to_string(), 2, run_crc40);
     run("FIB".to_string(), 50, run_fib);
