@@ -212,7 +212,7 @@ fn run_crc40() {
 }
 
 fn main() {
-    println!("\n(\"Rust {}\"", "1.28.0");
+    println!("\n(\"Rust {}\"", "1.56.0");
     run("CRC40".to_string(), 2, run_crc40);
     run("FIB".to_string(), 50, run_fib);
     run("FIB-SINGLE-FLOAT".to_string(), 50, run_fib_single_float);
